@@ -187,11 +187,9 @@ Distributed under the MIT License. See [LICENSE](https://github.com/karanverma96
 <!-- ORIGIN -->
 ## Origin
 
-Written in 2021 as a systems-programming project at IIT Jammu. The commit
-history here starts in 2026 because the original repository lived on a
-university account that was closed; the code is unchanged from the original
-apart from a portability pass (POSIX feature-test macro, checked return values
-on `pipe`, `getcwd` and `fgets`) and a corrected Makefile.
+Written in 2021 at IIT Jammu. The commit history here starts in 2026 because the original repository was on a university account that got closed.
+
+The only later changes are a portability pass, `_GNU_SOURCE` for the POSIX declarations, and checked return values on `pipe`, `getcwd` and `fgets`. Logic is unchanged.
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
