@@ -1,0 +1,6 @@
+# Build output
+CShell
+*.o
+
+# Local backups made while cleaning up the repo
+*.orig

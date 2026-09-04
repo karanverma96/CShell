@@ -5,6 +5,9 @@
 * GitHub/karanverma96
 * 10-03-21
 */
+// for PATH_MAX, kill, getline, gethostname. must come before the includes
+#define _GNU_SOURCE
+
 #include "CShell.h"
 #include <signal.h>
 #include <stdio.h>
@@ -378,7 +381,6 @@ int backGroundProcess(char *line[50], int len)
 {
     line[len] = NULL; /*null terminated for exec*/
     pid_t pid;
-    int status;
     pid = fork();
     if (pid == 0)
     {
@@ -422,6 +424,7 @@ int backGroundProcess(char *line[50], int len)
 }
 void handle_sigint(int sig) // SIGNAL HANDLER FOR INTERRUPT HANDLING
 {
+    (void)sig; // unused
     printf("\n---------- Interrupted ----------\n");
 }
 void addHistory(char *entry) /* for adding record to history*/
@@ -596,7 +599,12 @@ static void pipelineio_exec(char *full, char ***cmd, char *ip, char *op)
     /*loop over commands by sharing pipes */
     while (*cmd != NULL)
     {
-        pipe(fd);
+        if (pipe(fd) == -1)
+        {
+            // Error creating pipe
+            perror("pipe Error");
+            exit(1);
+        }
         if ((pid = fork()) == -1)
         {
             perror("fork Error");
@@ -677,11 +685,14 @@ int main(int argc, char *argv[])
     signal(SIGINT, handle_sigint); // signal to handle interrupt
     char currentWD[200];
     char shellsWD[200];
-    getcwd(currentWD, sizeof(currentWD));
+    if (getcwd(currentWD, sizeof(currentWD)) == NULL)
+    {
+        perror("getcwd Error");
+        exit(1);
+    }
     char *host = malloc(sizeof(char) * 100);
     gethostname(host, 100);
     char *userName = getenv("USER");
-    int id_for_hist = 0;
     if (argc >= 2) // Atleast one batch file given !
     {
         for (int i = 1; i < argc; ++i)
@@ -696,13 +707,23 @@ int main(int argc, char *argv[])
         char *cmd = malloc(sizeof(char) * 100);
         char cmd2[100];
         char *args[50];
-        getcwd(shellsWD, sizeof(shellsWD));
+        if (getcwd(shellsWD, sizeof(shellsWD)) == NULL)
+        {
+            perror("getcwd Error");
+            free(cmd);
+            break;
+        }
         char *cwd1 = shellsWD;
         if (strncmp(currentWD, shellsWD, strlen(currentWD)) == 0) /*if pwd contains shells directory, replace by ~ */
             cwd1 = replace(shellsWD, currentWD, "");
         // PROMPT
         printf("<%s%s%s@%s%s%s:%s~%s%s>", YELLOW, userName, RESET, BLUE, host, RESET, GREEN, cwd1, RESET);
-        fgets(cmd, 100, stdin); /* get command */
+        if (fgets(cmd, 100, stdin) == NULL) // EOF (ctrl-D), exit the shell
+        {
+            printf("\n");
+            free(cmd);
+            break;
+        }
         strcpy(cmd2, cmd);
         int len = parse(cmd, args);
         master_execute(args, cmd2, len, 1); /* execute command */

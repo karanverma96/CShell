@@ -3,7 +3,7 @@
 [issues-shield]: https://img.shields.io/github/issues/karanverma96/CShell.svg?style=for-the-badge
 [issues-url]: https://github.com/karanverma96/CShell/issues
 [license-shield]: https://img.shields.io/github/license/karanverma96/CShell.svg?style=for-the-badge
-[license-url]: https://github.com/karanverma96/CShell/blob/master/LICENSE
+[license-url]: https://github.com/karanverma96/CShell/blob/main/LICENSE
 
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
@@ -76,7 +76,7 @@ E.g., `>./CShell`
 
 2. After processing of batch files (if supplied), CShell goes to a post-processing interactive mode, similar to a unix-type shell.
 
-3. The batch file can contain user-defined as well as generic unix system commands. [Sample Batch File](https://github.com/karanverma96/CShell/blob/master/sample_batch.txt)
+3. The batch file can contain user-defined as well as generic unix system commands. [Sample Batch File](https://github.com/karanverma96/CShell/blob/main/sample_batch.txt)
  
 
 ### ***User-defined Commands***
@@ -174,15 +174,24 @@ Here's how you can contribute:
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/karanverma96/CShell/blob/master/LICENSE) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/karanverma96/CShell/blob/main/LICENSE) for more information.
 
 
 
 <!-- CONTACT -->
 ## Contact
 
-#### Ask me anything [here](https://github.com/karanverma96/karanverma96/issues).
+#### Ask me anything [here](https://github.com/karanverma96/CShell/issues).
 
+
+<!-- ORIGIN -->
+## Origin
+
+Written in 2021 as a systems-programming project at IIT Jammu. The commit
+history here starts in 2026 because the original repository lived on a
+university account that was closed; the code is unchanged from the original
+apart from a portability pass (POSIX feature-test macro, checked return values
+on `pipe`, `getcwd` and `fgets`) and a corrected Makefile.
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
